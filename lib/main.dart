@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:map_builder/surface_duo_helper.dart';
 import 'package:map_builder/tile_map_container.dart';
 
 import 'tile_map.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,15 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -33,15 +26,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -49,41 +33,53 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
-  List<List<String>> createMap(){
+  List<List<String>> createMap(assetName) {
     List<List<String>> map = [];
-    for(int i  = 0; i < 40; i++){
+    for (int i = 0; i < 40; i++) {
       List<String> row = [];
-      for(int j = 0; j < 50; j++){
-        row.add("assets/images/PixelArt.png");
+      for (int j = 0; j < 50; j++) {
+        row.add(assetName);
       }
       map.add(row);
     }
     return map;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      body: SafeArea(
+        child: FutureBuilder(
+          future: getHinge(context),
+          initialData: Container(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    child: TileMapContainer(
+                        map: createMap("assets/images/PixelArt.png"),
+                        viewPortPosition: Point(0, 0),
+                        tileSize: 24),
+                  ),
+                  snapshot.data.hinge,
+                  Expanded(
+                    child: TileMapContainer(
+                        map: createMap("assets/images/PixelArt.png"),
+                        viewPortPosition: Point(0, 0),
+                        tileSize: 24),
+                  ),
+                ],
+              );
+            } else
+              return TileMapContainer(
+                  map: createMap("assets/images/PixelArt.png"),
+                  viewPortPosition: Point(0, 0),
+                  tileSize: 24);
+          },
+        ),
       ),
-      body: Center(
-        child: TileMapContainer(map: createMap(), viewPortPosition: Point(0,0), tileSize: 24),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    ); // This trailing comma makes auto-formatting nicer for build methods.
   }
 }

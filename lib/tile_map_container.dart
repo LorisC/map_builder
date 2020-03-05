@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:map_builder/dimension.dart';
 import 'package:map_builder/tile.dart';
 import 'package:map_builder/tile_map.dart';
@@ -18,7 +19,15 @@ class TileMapContainer extends TileMap {
 }
 
 class TileMapContainerState extends State<TileMapContainer> {
-  buildRow(int rowNumber, Dimension viewPortTileSize) {
+
+
+  onTileTap(int index, context){
+    print("tile: $index tapped");
+    print(" display widht ${MediaQuery.of(context).size.width} height :${MediaQuery.of(context).size.height}");
+
+  }
+  
+  buildRow(int rowNumber, Dimension viewPortTileSize, context) {
     List<Tile> tiles = [];
 
     for (int i = widget.viewPortPosition.x;
@@ -28,7 +37,11 @@ class TileMapContainerState extends State<TileMapContainer> {
         tiles.add(Tile(
           assetsName: widget.map[rowNumber][i],
           size: widget.tileSize,
+          onTap: (){
+            onTileTap(rowNumber* widget.map[rowNumber].length + i, context);
+            print("position col: $i row: $rowNumber");
 
+          },
         ));
       }
     }
@@ -40,14 +53,14 @@ class TileMapContainerState extends State<TileMapContainer> {
     );
   }
 
-  buildRows(Dimension viewPortTileSize, double height) {
+  buildRows(Dimension viewPortTileSize, double height, context) {
     List<Row> rows = [];
 
     for (int i = widget.viewPortPosition.y;
         i < widget.viewPortPosition.y + viewPortTileSize.height;
         i++) {
       if (i < widget.map.length && i* widget.tileSize <= height) {
-        rows.add(buildRow(i, viewPortTileSize));
+        rows.add(buildRow(i, viewPortTileSize, context));
       }
     }
 
@@ -61,12 +74,13 @@ class TileMapContainerState extends State<TileMapContainer> {
     return LayoutBuilder(
       builder: (context, constraints) {
         Dimension viewPortTileSize = widget.viewPortSizeInTile(constraints);
-
+        print(viewPortTileSize);
+        print(constraints);
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
-          children: buildRows(viewPortTileSize, constraints.maxHeight),
+          children: buildRows(viewPortTileSize, constraints.maxHeight, context),
         );
       },
     );

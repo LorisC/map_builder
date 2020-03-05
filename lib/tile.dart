@@ -10,13 +10,12 @@ class Tile extends StatefulWidget {
   Tile({this.assetsName, this.size, this.onTap});
 
   @override
-  State<StatefulWidget> createState() => TileState( );
+  State<StatefulWidget> createState() => TileState(this.onTap);
 }
 
 class TileState extends State<Tile> {
-  Point position;
   Function onTap;
-  TileState();
+  TileState(this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +26,7 @@ class TileState extends State<Tile> {
         height: widget.size ,
         fit: BoxFit.cover,
       ),
-      onTap: () {
-        widget.onTap(position);
-      },
+      onTap: onTap
     );
   }
 }

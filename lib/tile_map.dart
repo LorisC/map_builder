@@ -22,6 +22,7 @@ abstract class TileMap extends StatefulWidget {
         assert(viewPortPosition != null);
 
   Dimension viewPortSizeInTile(BoxConstraints constraints) {
+    print(constraints);
     return Dimension(
         width: (constraints.maxWidth / tileSize).floor(),
         height: (constraints.maxHeight / tileSize).floor());
