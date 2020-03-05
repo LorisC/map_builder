@@ -68,7 +68,7 @@ abstract class TileMap extends StatelessWidget {
   void mOnHorizontalDragStart(DragStartDetails details) {
     Point normalizedPosition = normalizeScreenPosition(details.globalPosition);
 
-    this.onDragStart(normalizedPosition);
+    this.mDragStart(normalizedPosition);
     if (onHorizontalDragStart != null)
       onHorizontalDragStart(normalizedPosition);
   }
@@ -76,58 +76,58 @@ abstract class TileMap extends StatelessWidget {
   void mHorizontalDragUpdate(DragUpdateDetails details) {
     Point normalizedPosition = normalizeScreenPosition(details.globalPosition);
 
-    this.onDragUpdate(normalizedPosition);
+    this.mDragUpdate(normalizedPosition);
     if (onHorizontalDragUpdate != null)
       onHorizontalDragUpdate(normalizedPosition);
   }
 
   void mHorizontalDragCancel() {
-    this.onDragCancel();
+    this.mDragCancel();
     if (onHorizontalDragCancel != null) onHorizontalDragCancel();
   }
 
   void mHorizontalDragDown(DragDownDetails details) {
     Point normalizedPosition = normalizeScreenPosition(details.globalPosition);
 
-    this.onDragDown(normalizedPosition);
+    this.mDragDown(normalizedPosition);
     if (onHorizontalDragDown != null) onHorizontalDragDown(normalizedPosition);
   }
 
   void mHorizontalDragEnd(DragEndDetails details) {
-    this.onDragEnd(details);
+    this.mDragEnd(details);
     if (onHorizontalDragEnd != null) onHorizontalDragEnd(details);
   }
 
   void mVerticalDragStart(DragStartDetails details) {
     Point normalizedPosition = normalizeScreenPosition(details.globalPosition);
 
-    this.onDragStart(normalizedPosition);
+    this.mDragStart(normalizedPosition);
     if (onVerticalDragStart != null)
       onVerticalDragStart(normalizeScreenPosition(details.globalPosition));
   }
 
   void mVerticalDragUpdate(DragUpdateDetails details) {
     Point normalizedPosition = normalizeScreenPosition(details.globalPosition);
-    this.onDragUpdate(normalizedPosition);
+    this.mDragUpdate(normalizedPosition);
     if (onVerticalDragUpdate != null)
       onVerticalDragUpdate(normalizeScreenPosition(details.globalPosition));
   }
 
   void mVerticalDragCancel() {
-    this.onDragCancel();
+    this.mDragCancel();
     if (onVerticalDragCancel != null) onVerticalDragCancel();
   }
 
   void mVerticalDragDown(DragDownDetails details) {
     Point normalizedPosition = normalizeScreenPosition(details.globalPosition);
 
-    this.onDragDown(normalizedPosition);
+    this.mDragDown(normalizedPosition);
     if (onVerticalDragDown != null)
       onVerticalDragDown(normalizeScreenPosition(details.globalPosition));
   }
 
   void mVerticalDragEnd(DragEndDetails details) {
-    this.onDragEnd(details);
+    this.mDragEnd(details);
     if (onVerticalDragEnd != null) onVerticalDragEnd((details));
   }
 
