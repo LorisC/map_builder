@@ -26,12 +26,6 @@ Future<Size> getScreenRealDimension(BuildContext context) async {
   );
 }
 
-void funn() async {
-  final displayMak = await platform.invokeMethod('getDisplayMask');
-  print(displayMak);
-  final drawingScreenSize = await platform.invokeMethod('getDrawingScreenSize');
-  print(drawingScreenSize['width']);
-}
 Future<Hinge> getHinge(BuildContext context) async {
   Size flutterScreenSize = MediaQuery.of(context).size;
   final displayMak = await platform.invokeMethod('getDisplayMask');
