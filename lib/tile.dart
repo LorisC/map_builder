@@ -5,6 +5,7 @@ class Tile extends StatefulWidget {
   final String assetsName;
   final double size;
   final Function onTap;
+
   Tile({this.assetsName, this.size, this.onTap});
 
   @override
